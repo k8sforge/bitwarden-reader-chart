@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  k8sinspector:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-10T19:56:41.079542213Z"
+    description: A Helm chart for deploying k8s-inspector on Kubernetes
+    digest: 912b4ea171e0dca5bd4b05f13e5c076ef350268c13d414c6ee9e6fcf8ee005bd
+    home: https://github.com/k8sforge/k8sinspector-chart
+    icon: https://avatars.githubusercontent.com/u/252440007
+    keywords:
+    - kubernetes
+    - inspector
+    - debugging
+    - monitoring
+    kubeVersion: '>= 1.20.0-0'
+    maintainers:
+    - name: k8sforge
+    name: k8sinspector
+    sources:
+    - https://github.com/platformfuzz/k8s-inspector
+    - https://github.com/k8sforge/k8sinspector-chart
+    type: application
+    urls:
+    - https://github.com/k8sforge/k8sinspector-chart/releases/download/k8sinspector-0.1.0/k8sinspector-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-01-10T19:56:41.079548004Z"
