@@ -1,0 +1,120 @@
+# Global settings
+global:
+  enabled: true
+
+# Application name
+nameOverride: ""
+fullnameOverride: ""
+
+# Namespace configuration
+namespace:
+  name: "bitwarden-secrets"
+  create: false  # Usually namespace exists from Bitwarden operator
+
+# Image configuration
+image:
+  repository: ghcr.io/platformfuzz/k8s-bitwarden-reader
+  tag: latest
+  pullPolicy: Always  # Changed from IfNotPresent (Terraform uses Always)
+
+# Deployment configuration
+replicaCount: 1  # Changed from 2 (Terraform default is 1)
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+
+# Image pull secrets
+imagePullSecrets: []
+
+# ServiceAccount
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+  automountServiceAccountToken: true
+
+# RBAC
+rbac:
+  create: true
+  rules:
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list"]
+    - apiGroups: ["k8s.bitwarden.com", "bitwarden-secrets-operator.io"]
+      resources: ["bitwardensecrets"]
+      verbs: ["get", "list", "patch", "update"]
+
+# Application-specific configuration
+app:
+  secretNames: []  # List of Kubernetes secret names to read
+  # Example: ["example-secret", "example-secret2"]
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+  annotations: {}
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /api/v1/health
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "3"
+  hosts:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Resources
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+# Liveness and Readiness probes - DIFFERENT TIMINGS
+livenessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: 8080
+  initialDelaySeconds: 60  # Changed from 10 (Terraform uses 60)
+  periodSeconds: 30
+  timeoutSeconds: 5  # Changed from 3
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: 8080
+  initialDelaySeconds: 60  # Changed from 5 (Terraform uses 60)
+  periodSeconds: 10
+  timeoutSeconds: 5  # Changed from 3
+  failureThreshold: 3
+
+# Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# Security context
+securityContext: {}
+podSecurityContext: {}

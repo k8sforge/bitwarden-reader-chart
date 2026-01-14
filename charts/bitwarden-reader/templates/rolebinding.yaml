@@ -1,0 +1,17 @@
+{{- if and .Values.rbac.create .Values.global.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "bitwarden-reader.fullname" . }}
+  namespace: {{ include "bitwarden-reader.namespace" . }}
+  labels:
+    {{- include "bitwarden-reader.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "bitwarden-reader.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "bitwarden-reader.serviceAccountName" . }}
+    namespace: {{ include "bitwarden-reader.namespace" . }}
+{{- end }}

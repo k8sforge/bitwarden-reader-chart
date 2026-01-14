@@ -1,0 +1,8 @@
+{{- if and .Values.namespace.create .Values.global.enabled }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ include "bitwarden-reader.namespace" . }}
+  labels:
+    {{- include "bitwarden-reader.labels" . | nindent 4 }}
+{{- end }}

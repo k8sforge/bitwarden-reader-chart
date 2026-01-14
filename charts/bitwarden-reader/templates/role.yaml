@@ -1,0 +1,11 @@
+{{- if and .Values.rbac.create .Values.global.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "bitwarden-reader.fullname" . }}
+  namespace: {{ include "bitwarden-reader.namespace" . }}
+  labels:
+    {{- include "bitwarden-reader.labels" . | nindent 4 }}
+rules:
+  {{- toYaml .Values.rbac.rules | nindent 2 }}
+{{- end }}
