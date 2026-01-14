@@ -1,5 +1,29 @@
 apiVersion: v1
 entries:
+  bitwarden-reader:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-14T09:57:05.814768768Z"
+    description: A Helm chart for deploying k8s-bitwarden-reader on Kubernetes
+    digest: 56c1939a546aeb6d992badb2eb58ec68a3da2d619e6ea92d816af181cad8edb3
+    home: https://github.com/k8sforge/bitwarden-reader-chart
+    icon: https://avatars.githubusercontent.com/u/252440007
+    keywords:
+    - kubernetes
+    - bitwarden
+    - secrets
+    - reader
+    kubeVersion: '>= 1.20.0-0'
+    maintainers:
+    - name: k8sforge
+    name: bitwarden-reader
+    sources:
+    - https://github.com/platformfuzz/k8s-bitwarden-reader
+    - https://github.com/k8sforge/bitwarden-reader-chart
+    type: application
+    urls:
+    - https://github.com/k8sforge/bitwarden-reader-chart/releases/download/bitwarden-reader-0.1.0/bitwarden-reader-0.1.0.tgz
+    version: 0.1.0
   k8sinspector:
   - apiVersion: v2
     appVersion: latest
@@ -24,4 +48,4 @@ entries:
     urls:
     - https://github.com/k8sforge/k8sinspector-chart/releases/download/k8sinspector-0.1.0/k8sinspector-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-10T19:56:41.079548004Z"
+generated: "2026-01-14T09:57:05.814772848Z"
