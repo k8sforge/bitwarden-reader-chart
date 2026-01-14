@@ -1,0 +1,57 @@
+{{- if and .Values.ingress.enabled .Values.global.enabled }}
+{{- range .Values.ingress.hosts }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "bitwarden-reader.fullname" $ }}
+  namespace: {{ include "bitwarden-reader.namespace" $ }}
+  labels:
+    {{- include "bitwarden-reader.labels" $ | nindent 4 }}
+  {{- with $.Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if $.Values.ingress.className }}
+  ingressClassName: {{ $.Values.ingress.className }}
+  {{- end }}
+  {{- if .host }}
+  rules:
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ include "bitwarden-reader.fullname" $ }}
+                port:
+                  number: {{ $.Values.service.port }}
+          {{- end }}
+  {{- else }}
+  rules:
+    - http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ include "bitwarden-reader.fullname" $ }}
+                port:
+                  number: {{ $.Values.service.port }}
+          {{- end }}
+  {{- end }}
+  {{- if $.Values.ingress.tls }}
+  tls:
+    {{- range $.Values.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}

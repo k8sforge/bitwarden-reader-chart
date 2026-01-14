@@ -1,0 +1,19 @@
+apiVersion: v2
+name: bitwarden-reader
+description: A Helm chart for deploying k8s-bitwarden-reader on Kubernetes
+type: application
+version: 0.1.0
+kubeVersion: ">= 1.20.0-0"
+appVersion: "latest"
+icon: https://avatars.githubusercontent.com/u/252440007
+keywords:
+  - kubernetes
+  - bitwarden
+  - secrets
+  - reader
+maintainers:
+  - name: k8sforge
+home: https://github.com/k8sforge/bitwarden-reader-chart
+sources:
+  - https://github.com/platformfuzz/k8s-bitwarden-reader
+  - https://github.com/k8sforge/bitwarden-reader-chart
